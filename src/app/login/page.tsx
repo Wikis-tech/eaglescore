@@ -1,0 +1,2 @@
+import {Login} from "@/components/screens";
+export default function Page(){return <Login/>}

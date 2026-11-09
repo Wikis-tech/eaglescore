@@ -1,0 +1,1 @@
+import {AdminScores} from "@/components/screens";import {Shell} from "@/components/shell";import {AdminGate} from "@/components/admin-gate";export default function Page(){return <Shell><AdminGate><AdminScores/></AdminGate></Shell>}

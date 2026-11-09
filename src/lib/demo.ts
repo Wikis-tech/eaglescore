@@ -1,0 +1,10 @@
+export type Role="member"|"director"|"admin";
+export type Score={id:string;title:string;category:string;composer:string;arranger:string;key:string;time:string;status:"approved"|"pending"|"returned";parts:string[];version:string;download:boolean;owner:string;hymn?:string};
+export type Submission={id:string;title:string;status:"pending"|"returned"|"approved";filename:string;notes:string};
+export type State={role:Role;favourites:string[];scores:Score[];submissions:Submission[];collections:string[]};
+export const seed:State={role:"member",favourites:[],scores:[{id:"amazing-grace",title:"Amazing Grace",category:"Hymns",composer:"John Newton (words)",arranger:"Eagle Orchestra (demo arrangement)",key:"G Major (concert)",time:"3/4 (example)",status:"approved",parts:["Full Score","Violin","Clarinet","Piano","Guitar","Recorder"],version:"1.0",download:false,owner:"Demo uploader",hymn:"024"},{id:"great-is-thy-faithfulness",title:"Great Is Thy Faithfulness",category:"Hymns",composer:"Thomas Chisholm",arranger:"Illustrative",key:"D Major",time:"4/4",status:"approved",parts:["Full Score","Violin","Piano"],version:"1.0",download:false,owner:"Demo uploader"},{id:"praise-medley",title:"Praise Medley No. 1",category:"Praise",composer:"Various",arranger:"Illustrative",key:"C Major",time:"4/4",status:"approved",parts:["Full Score","Guitar","Piano"],version:"1.0",download:false,owner:"Demo uploader"}],submissions:[{id:"submission-1",title:"Worship Prelude",status:"pending",filename:"worship-prelude.pdf",notes:"Awaiting rights verification"}],collections:["Sunday Rehearsal","Favourite Hymns"]};
+export const canPublish=(r:Role)=>r==="admin";
+export const visibleScores=(s:Score[])=>s.filter(x=>x.status==="approved");
+export const searchScores=(s:Score[],q:string,c:string)=>visibleScores(s).filter(x=>(c==="All"||x.category===c)&&(x.title+" "+x.composer+" "+x.parts.join(" ")+" "+(x.hymn||"")).toLowerCase().includes(q.toLowerCase()));
+export const sampleWrittenKey=(part:string)=>part==="Clarinet"?"A Major (written, B-flat clarinet)":"G Major (concert example)";
+export const maxDemoFileBytes=15*1024*1024;
