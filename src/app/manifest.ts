@@ -1,0 +1,2 @@
+import type {MetadataRoute} from "next";
+export default function manifest():MetadataRoute.Manifest{return {name:"EagleScore - Eagle Orchestra",short_name:"EagleScore",start_url:"/",display:"standalone",background_color:"#f7f5fa",theme_color:"#552277",icons:[{src:"/icons/icon.svg",sizes:"any",type:"image/svg+xml",purpose:"any"}]}}
