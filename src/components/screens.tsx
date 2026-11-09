@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";import {useEffect,useState} from "react";import {useParams,useRouter} from "next/navigation";
-import {ArrowLeft,ArrowRight,BookOpen,Bookmark,Check,ChevronLeft,ChevronRight,Download,FileText,Search,Upload,ZoomIn,ZoomOut,Printer,AlertTriangle,Plus,Trash2,ShieldCheck} from "lucide-react";
+import {ArrowLeft,ArrowRight,BookOpen,Bookmark,Check,ChevronLeft,ChevronRight,Download,FileText,Upload,ZoomIn,ZoomOut,Printer,AlertTriangle,Plus,Trash2,ShieldCheck} from "lucide-react";
 import {useDemo} from "./demo-provider";import {canPublish,maxDemoFileBytes,sampleWrittenKey,searchScores,type Submission} from "@/lib/demo";
 const parts=["Full Score","Violin","Clarinet","Piano","Guitar","Recorder"];
 export function Heading({title,description,action}:{title:string;description?:string;action?:React.ReactNode}){return <div className="page-head"><div><div className="eyebrow">EagleScore · Demo workspace</div><h1>{title}</h1>{description&&<p className="muted small">{description}</p>}</div>{action}</div>}
