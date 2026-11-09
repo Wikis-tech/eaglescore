@@ -1,9 +1,9 @@
 name: Frontend CI
 on:
   push:
-    branches: [main, feat/step2-frontend-pwa]
+    branches: [main, feat/step2-frontend-pwa, feat/tracklib-inspired-landing]
   pull_request:
-    branches: [main]
+    branches: [main, feat/step2-frontend-pwa]
 permissions:
   contents: read
 jobs:
