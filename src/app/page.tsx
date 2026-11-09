@@ -1,2 +1,2 @@
-import {Home} from "@/components/screens";
-export default function Page(){return <Home/>}
+import MarketingLanding from "@/components/marketing-landing";
+export default function Page(){return <MarketingLanding/>}
