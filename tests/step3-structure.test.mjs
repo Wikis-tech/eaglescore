@@ -1,0 +1,10 @@
+import test from "node:test";
+import assert from "node:assert/strict";
+import {existsSync,readFileSync} from "node:fs";
+const read=(p)=>readFileSync(p,"utf8");
+test("foundation SQL exists with all core tables",()=>{const sql=read("supabase/migrations/20261110120000_eaglescore_foundation.sql");for(const t of ["profiles","roles","user_roles","works","arrangements","scores","score_versions","score_parts","score_files","submissions","reviews","copyright_records","collections","collection_items","favorites","audit_logs","landing_content"])assert.ok(sql.includes("create table public."+t),t)});
+test("all application tables have RLS",()=>{const sql=read("supabase/migrations/20261110120000_eaglescore_foundation.sql");for(const t of ["profiles","roles","user_roles","invitations","works","arrangements","scores","score_versions","score_parts","score_files","submissions","reviews","copyright_records","collections","collection_items","favorites","audit_logs","landing_content"])assert.ok(sql.includes("alter table public."+t+" enable row level security"),t)});
+test("anonymous CMS cannot read draft column",()=>{const sql=read("supabase/migrations/20261110120000_eaglescore_foundation.sql");assert.match(sql,/grant select\(id,published,version\) on public.landing_content to anon,authenticated/);assert.doesNotMatch(sql,/grant select on public.landing_content to anon/)});
+test("server routes verify admin identity and MFA",()=>{const auth=read("src/lib/auth/access.ts");assert.match(auth,/getUser\(/);assert.match(auth,/aal2/);assert.ok(existsSync("src/app/api/admin/invitations/route.ts"))});
+test("user metadata cannot assign roles",()=>{const sql=read("supabase/migrations/20261110120000_eaglescore_foundation.sql");assert.doesNotMatch(sql,/raw_user_meta_data.*role/);assert.match(sql,/user_roles/)});
+test("server secrets are never NEXT_PUBLIC",()=>{const admin=read("src/lib/supabase/admin.ts");assert.match(admin,/SUPABASE_SECRET_KEY/);assert.doesNotMatch(admin,/NEXT_PUBLIC_SUPABASE_SECRET/)});
