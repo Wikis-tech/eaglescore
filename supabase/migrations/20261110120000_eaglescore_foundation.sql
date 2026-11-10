@@ -108,6 +108,7 @@ create policy scores_select on public.scores for select to authenticated using((
 create policy scores_insert on public.scores for insert to authenticated with check((select app_private.active_member()) and owner_id=(select auth.uid()) and status='draft' and published_version_id is null and exists(select 1 from public.arrangements a where a.id=arrangement_id and a.owner_id=(select auth.uid())));
 create policy versions_select on public.score_versions for select to authenticated using((select app_private.read_score(score_id)) and (created_by=(select auth.uid()) or (select app_private.is_admin()) or (status='approved' and exists(select 1 from public.scores s where s.id=score_id and s.published_version_id=score_versions.id))));
 create policy versions_insert on public.score_versions for insert to authenticated with check(status='draft' and created_by=(select auth.uid()) and (select app_private.active_member()) and exists(select 1 from public.scores s where s.id=score_id and s.owner_id=(select auth.uid())));
+create policy versions_update_own_draft on public.score_versions for update to authenticated using(status='draft' and created_by=(select auth.uid())) with check(status='draft' and created_by=(select auth.uid()));
 create policy parts_select on public.score_parts for select to authenticated using(exists(select 1 from public.score_versions v where v.id=version_id));
 create policy submissions_select on public.submissions for select to authenticated using(submitted_by=(select auth.uid()) or (select app_private.is_admin()) or (select app_private.is_director()));
 create policy reviews_select on public.reviews for select to authenticated using((select app_private.is_admin()) or (select app_private.is_director()) or exists(select 1 from public.submissions s where s.id=submission_id and s.submitted_by=(select auth.uid())));
@@ -126,9 +127,10 @@ create policy audit_admin_select on public.audit_logs for select to authenticate
 create policy landing_public_select on public.landing_content for select to anon,authenticated using(id='main');
 
 revoke all on all tables in schema public from anon,authenticated;
-grant select on public.landing_content to anon,authenticated;
+grant select(id,published,version) on public.landing_content to anon,authenticated;
 grant select on public.profiles,public.roles,public.user_roles,public.invitations,public.works,public.arrangements,public.scores,public.score_versions,public.score_parts,public.submissions,public.reviews,public.copyright_records,public.collections,public.collection_items,public.favorites,public.audit_logs to authenticated;
 grant insert on public.works,public.arrangements,public.scores,public.score_versions,public.collections,public.collection_items,public.favorites to authenticated;
 grant update(name) on public.collections to authenticated;
+grant update(title,content,change_summary) on public.score_versions to authenticated;
 grant delete on public.collections,public.collection_items,public.favorites to authenticated;
 -- score_files and privileged role/submission/review/publication rows intentionally unavailable for direct client mutation.

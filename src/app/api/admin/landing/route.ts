@@ -13,7 +13,7 @@ export async function PATCH(request:NextRequest){
  const content=validateLanding(body?.content);
  if(!content||!Number.isInteger(body?.expectedVersion)||body.expectedVersion<0)return NextResponse.json({error:"Invalid content/version."},{status:400});
  try{const db=createAdminClient();
- const {data,error}=await db.from("landing_content").update({draft:content,updated_by:check.identity.id,updated_at:new Date().toISOString()}).eq("id","main").eq("version",body.expectedVersion).select("version").maybeSingle();
+ const {data,error}=await db.from("landing_content").update({draft:content,version:body.expectedVersion+1,updated_by:check.identity.id,updated_at:new Date().toISOString()}).eq("id","main").eq("version",body.expectedVersion).select("version").maybeSingle();
  if(error)throw error;if(!data)return NextResponse.json({error:"Content changed. Refresh and retry."},{status:409});
  return NextResponse.json({ok:true,version:data.version})}catch{return NextResponse.json({error:"Unable to save draft."},{status:503})}
 }
