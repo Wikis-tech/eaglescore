@@ -2,6 +2,32 @@
 
 **Scope:** exact steps for project owner using their own Supabase dashboard. No need to connect Supabase to ChatGPT. Keep SQL in GitHub and paste reviewed files yourself.
 
+## Troubleshooting: P0001 email placeholder (2026-11-10)
+
+If scripts `03_prepare_FIRST_ADMIN_INVITATION.sql`, `04_grant_FIRST_SUPER_ADMIN.sql`, or `06_reconcile_VERIFIED_INVITATION_OPTIONAL.sql` show
+`ERROR: P0001: STOP: enter a valid approved admin email first`, **this is intentional**, not a schema error.
+The address placeholder `REPLACE_WITH_APPROVED_ADMIN_EMAIL` was never changed.
+
+In each SQL Editor query, change the line
+
+```sql
+declare target_email text := 'REPLACE_WITH_APPROVED_ADMIN_EMAIL';
+```
+
+to the **actual, church-approved administrator email** using the same quotation marks, for example:
+
+```sql
+declare target_email text := 'approved.orchestra.admin@example.org';
+```
+
+The example is **not** a real user or an address you should copy; use the actual approved address. Do not put any credentials, keys or personal email addresses in GitHub commits or ChatGPT.
+
+The valid sequence is: **03** (register invitation) → Supabase Authentication > Users > Invite user (same address) → user accepts invitation → **05** (replace email in WHERE clause; verify email, active status, accepted_at) → **04** (grant Super Admin) → MFA enrolment. Script **06 is optional** and must only run for a specifically diagnosed verified-but-pending account; it is not a normal step.
+
+**Script 05 returning zero rows is not evidence of success.** It means no confirmed user matched the address in the WHERE clause (most often because the placeholder was not replaced).
+
+A failed `DO $ ... $;` block raises an exception and writes nothing for that block. Do not rerun the foundation migration. Stop and check the email and invitation status before advancing.
+
 ## 0. Safeguards
 - Never paste secrets into ChatGPT, GitHub, commit messages or the Supabase SQL Editor.
 - Confirm the correct Supabase project by its **project ref in the dashboard URL** before EACH manual write. Do not use Campus Link, Angel OS or any other project.
