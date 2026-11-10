@@ -7,14 +7,9 @@ import {useLandingContent} from "./landing-content-provider";
 import {illustrationSources} from "@/lib/landing-content";
 import "./landing.css";
 
-const scoreCards=[
- {name:"AMAZING GRACE",type:"HYMN / VIOLIN",code:"ES · 024",tone:"lavender"},
- {name:"FAITHFULNESS",type:"HYMN / PIANO",code:"ES · 018",tone:"cream"},
- {name:"PRAISE MEDLEY",type:"PRAISE / FULL SCORE",code:"ES · 041",tone:"red"},
- {name:"SUNDAY PRELUDE",type:"WORSHIP / CLARINET",code:"ES · 056",tone:"dark"}
-];
+const cardTones=["lavender","cream","red","dark"];
 const stepIcons=[UploadCloud,ShieldCheck,Search,BookOpen];
-function ScoreTile({card,index}:{card:typeof scoreCards[number];index:number}){
+function ScoreTile({card,index}:{card:{name:string;type:string;code:string;tone:string};index:number}){
  return <div className={"es-art-card es-art-"+card.tone} style={{"--order":String(index)} as React.CSSProperties} aria-hidden="true">
  <div className="es-art-top"><span>E / S</span><span>{card.code}</span></div>
  <div className="es-art-title">{card.name}</div><div className="es-art-rule"/>
@@ -26,11 +21,12 @@ function Illustration({source,alt,className}:{source:keyof typeof illustrationSo
 export default function MarketingLanding(){
  const {content:c,isDraft}=useLandingContent();
  const [open,setOpen]=useState(false);
+ const covers=c.showcase.covers.map((cover,i)=>({...cover,tone:cardTones[i%cardTones.length]}));
  const [playing,setPlaying]=useState(true);
  return <div className="es-landing">
   <a className="es-skip" href="#main">Skip to content</a>
   <header className="es-site-header"><nav className="es-nav" aria-label="Main navigation">
-   <Link href="/" className="es-brand" aria-label="EagleScore home"><span className="es-brand-icon"><Music2 size={24} strokeWidth={2.5}/></span><span>EAGLE<span>SCORE</span><small>THE ORCHESTRA LIBRARY</small></span></Link>
+   <Link href="/" className="es-brand" aria-label="EagleScore home"><span className="es-brand-icon"><Music2 size={24} strokeWidth={2.5}/></span><span>{c.brand.slice(0,-5).toUpperCase()}<span>{c.brand.slice(-5).toUpperCase()}</span><small>{c.showcase.brandTagline}</small></span></Link>
    <div className={"es-menu "+(open?"is-open":"")} id="landing-navigation">
     <a href="#how-it-works" onClick={()=>setOpen(false)}>{c.nav.how}</a>
     <a href="#features" onClick={()=>setOpen(false)}>{c.nav.features}</a>
@@ -52,7 +48,7 @@ export default function MarketingLanding(){
      {isDraft&&<Link className="es-draft-indicator" href="/admin/landing-editor">LOCAL CMS PREVIEW · EDIT CONTENT</Link>}
     </div>
     <div className={"es-visual "+(playing?"es-visual-playing":"es-visual-paused")} aria-label="Decorative illustration of orchestra music scores">
-     {c.media.hero==="collage"?<div className="es-visual-grid" aria-hidden="true">{[...scoreCards,...scoreCards].map((card,i)=><ScoreTile key={i} card={card} index={i}/>)}</div>:<Illustration source="rehearsal" alt="Original illustration representing orchestra musicians" className="es-hero-alternative"/>}
+     {c.media.hero==="collage"?<div className="es-visual-grid" aria-hidden="true">{[...covers,...covers].map((card,i)=><ScoreTile key={i} card={card} index={i}/>)}</div>:<Illustration source="rehearsal" alt="Original illustration representing orchestra musicians" className="es-hero-alternative"/>}
      <div className="es-visual-shade"/><div className="es-floating-label"><span className="es-pulse"/>{c.hero.badge}</div>
      {c.media.hero==="collage"&&<button type="button" className="es-motion-toggle" onClick={()=>setPlaying(v=>!v)} aria-label={playing?"Pause visual animation":"Play visual animation"}><Play size={14} fill="currentColor" style={{display:playing?"none":"block"}}/><span>{playing?"Ⅱ":""}</span></button>}
     </div>
@@ -61,18 +57,18 @@ export default function MarketingLanding(){
    <section id="how-it-works" className="es-section es-section-light">
     <div className="es-section-intro"><div><span className="es-section-number">{c.workflow.eyebrow}</span><h2>{c.workflow.heading1}<br/><span>{c.workflow.heading2}</span></h2></div><p>{c.workflow.description}</p></div>
     <div className="es-process-grid">{c.workflow.steps.map((step,i)=>{const Icon=stepIcons[i];return <article key={i} className="es-process-card"><div className="es-process-top"><span>0{i+1}</span><Icon size={26}/></div><h3>{step.title}</h3><p>{step.description}</p></article>})}</div>
-    <div className="es-workflow-visual"><Illustration source={c.media.workflow} alt={c.media.workflow==="library"?"Original illustration of a digital sheet music library":"Original illustration of a music notation editor"}/><div><span className="es-image-eyebrow">MADE FOR REAL REHEARSALS</span><h3>From paper folders to a library you can trust.</h3><p>A familiar music library experience, designed to keep every approved arrangement easy to find.</p></div></div>
+    <div className="es-workflow-visual"><Illustration source={c.media.workflow} alt={c.media.workflow==="library"?"Original illustration of a digital sheet music library":"Original illustration of a music notation editor"}/><div><span className="es-image-eyebrow">{c.showcase.workflowEyebrow}</span><h3>{c.showcase.workflowTitle}</h3><p>{c.showcase.workflowDescription}</p></div></div>
    </section>
    <section id="features" className="es-section es-section-dark">
     <div className="es-section-intro"><div><span className="es-section-number">{c.features.eyebrow}</span><h2>{c.features.heading1}<br/><span>{c.features.heading2}</span></h2></div><p>{c.features.description}</p></div>
     <div className="es-feature-grid">
-     <article className="es-feature-card es-feature-main"><div className="es-feature-overline"><Search size={16}/>{c.features.searchLabel}</div><h3>{c.features.searchHeading}</h3><div className="es-search-demo"><Search size={22}/><span>{c.features.searchExample}</span><span className="es-search-shortcut">↵</span></div><div className="es-search-results"><div><FileMusic size={18}/><strong>Amazing Grace</strong><span>VIOLIN · HYMNS</span></div><div><FileMusic size={18}/><strong>Great Is Thy Faithfulness</strong><span>PIANO · HYMNS</span></div></div><Illustration source={c.media.search} alt="Original illustration of searchable digital music sheets"/><p className="es-small-note">{c.features.searchNote}</p></article>
-     <article className="es-feature-card es-feature-secondary"><span className="es-feature-overline"><FolderOpen size={16}/>{c.features.partsLabel}</span><h3>{c.features.partsHeading}</h3><div className="es-part-grid">{["VIOLIN","CLARINET","PIANO","GUITAR","RECORDER","FULL SCORE"].map(t=><span key={t}>{t}</span>)}</div><Illustration source={c.media.parts} alt="Original illustration of a musical instrument score"/><p>{c.features.partsDescription}</p></article>
-     <article className="es-feature-card es-feature-secondary"><span className="es-feature-overline"><ShieldCheck size={16}/>{c.features.accessLabel}</span><h3>{c.features.accessHeading}</h3><div className="es-approval-sim"><span><Check size={18}/> Approved library</span><span className="es-approval-muted">Admin-reviewed submissions</span></div><Illustration source={c.media.access} alt="Original illustration representing music approval and archive access"/><p>{c.features.accessDescription}</p></article>
+     <article className="es-feature-card es-feature-main"><div className="es-feature-overline"><Search size={16}/>{c.features.searchLabel}</div><h3>{c.features.searchHeading}</h3><div className="es-search-demo"><Search size={22}/><span>{c.features.searchExample}</span><span className="es-search-shortcut">↵</span></div><div className="es-search-results">{c.showcase.sampleResults.map((s,i)=><div key={i}><FileMusic size={18}/><strong>{s.title}</strong><span>{s.description}</span></div>)}</div><Illustration source={c.media.search} alt="Original illustration of searchable digital music sheets"/><p className="es-small-note">{c.features.searchNote}</p></article>
+     <article className="es-feature-card es-feature-secondary"><span className="es-feature-overline"><FolderOpen size={16}/>{c.features.partsLabel}</span><h3>{c.features.partsHeading}</h3><div className="es-part-grid">{c.showcase.instruments.map((t,i)=><span key={i}>{t}</span>)}</div><Illustration source={c.media.parts} alt="Original illustration of a musical instrument score"/><p>{c.features.partsDescription}</p></article>
+     <article className="es-feature-card es-feature-secondary"><span className="es-feature-overline"><ShieldCheck size={16}/>{c.features.accessLabel}</span><h3>{c.features.accessHeading}</h3><div className="es-approval-sim"><span><Check size={18}/> {c.showcase.approvalTitle}</span><span className="es-approval-muted">{c.showcase.approvalCaption}</span></div><Illustration source={c.media.access} alt="Original illustration representing music approval and archive access"/><p>{c.features.accessDescription}</p></article>
     </div>
    </section>
    <section id="about" className="es-section es-about"><div><span className="es-section-number">{c.about.eyebrow}</span><h2>{c.about.heading1}<br/><span>{c.about.heading2}</span></h2><Illustration source={c.media.about} alt="Original illustration celebrating the orchestra" className="es-about-illustration"/></div><div className="es-about-right"><p>{c.about.description}</p><Link href="/dashboard" className="es-button es-button-red">{c.about.cta}<ArrowRight size={18}/></Link><span className="es-small-note">Frontend demonstration — not yet a live member archive.</span></div></section>
   </main>
-  <footer className="es-footer"><Link href="/" className="es-brand"><span className="es-brand-icon"><Music2 size={20}/></span><span>EAGLE<span>SCORE</span></span></Link><span>{c.footer.caption}</span><div><Link href="/privacy">Privacy</Link><Link href="/terms">Terms</Link><Link href="/login">Member login</Link><Link href="/admin/eaglescorelogin">Admin</Link></div></footer>
+  <footer className="es-footer"><Link href="/" className="es-brand"><span className="es-brand-icon"><Music2 size={20}/></span><span>{c.brand.slice(0,-5).toUpperCase()}<span>{c.brand.slice(-5).toUpperCase()}</span></span></Link><span>{c.footer.caption}</span><div><Link href="/privacy">Privacy</Link><Link href="/terms">Terms</Link><Link href="/login">Member login</Link><Link href="/admin/eaglescorelogin">Admin</Link></div></footer>
  </div>;
 }
