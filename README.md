@@ -86,6 +86,10 @@ npm test
 npm run build
 ```
 
+## Supabase: manual setup without a connector
+
+All EagleScore database SQL is kept in GitHub before execution. A complete copy/paste checklist, secure first-administrator bootstrap, and Vercel environment setup is available at [docs/SUPABASE_VERCEL_SETUP.md](docs/SUPABASE_VERCEL_SETUP.md). The SQL execution order is indexed in [supabase/manual/README.md](supabase/manual/README.md). Never paste SQL from an unrelated branch or database.
+
 ## Supabase schema deployment — NOT DONE
 
 Migration source: `supabase/migrations/20261110120000_eaglescore_foundation.sql`.
