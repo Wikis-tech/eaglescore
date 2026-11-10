@@ -1,3 +1,5 @@
 import {requireMember} from "@/lib/auth/access";
-import {Editor} from "@/components/screens";import {Shell} from "@/components/shell";
-export default async function Page(){await requireMember();return <Shell><Editor/></Shell>}
+import {Shell} from "@/components/shell";
+import {RealWorkspace} from "@/components/real-workspace";
+export const dynamic="force-dynamic";
+export default async function Page(){const identity=await requireMember();return <Shell adminRole={identity.role==="super_admin"}><RealWorkspace kind="editor" identity={identity}/></Shell>}

@@ -1,2 +1,5 @@
 import {requireAdmin} from "@/lib/auth/access";
-import {AdminReviews} from "@/components/screens";import {Shell} from "@/components/shell";import {AdminGate} from "@/components/admin-gate";export default async function Page(){await requireAdmin();return <Shell><AdminGate><AdminReviews/></AdminGate></Shell>}
+import {Shell} from "@/components/shell";
+import {RealWorkspace} from "@/components/real-workspace";
+export const dynamic="force-dynamic";
+export default async function Page(){const identity=await requireAdmin();return <Shell adminRole><RealWorkspace kind="admin/reviews" identity={identity}/></Shell>}
