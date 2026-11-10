@@ -25,7 +25,7 @@ values('22222222-aaaa-4aaa-8aaa-222222222222','admin@eaglescore.com.ng',now());
 insert into public.user_roles(user_id,role) values('22222222-aaaa-4aaa-8aaa-222222222222','super_admin');
 select set_config('request.jwt.claim.sub','22222222-aaaa-4aaa-8aaa-222222222222',false);
 select set_config('request.jwt.claims','{"aal":"aal1"}',false);
-do $ begin if app_private.is_admin() then raise exception 'Admin accepted without MFA'; end if; end$;
+do $$ begin if app_private.is_admin() then raise exception 'Admin accepted without MFA'; end if; end$$;
 select set_config('request.jwt.claims','{"aal":"aal2"}',false);
 do $$ begin if not app_private.is_admin() then raise exception 'Correct admin denied'; end if; end$$;
 SQL
