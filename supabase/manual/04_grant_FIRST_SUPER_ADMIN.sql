@@ -1,3 +1,9 @@
+-- IMPORTANT: DO NOT RUN until the same address was registered by script 03,
+-- the user accepted the Supabase Auth invitation and the verification query
+-- in script 05 shows email_verified=true, member_status=active, accepted_at set.
+-- Edit: declare target_email text := 'REPLACE_WITH_APPROVED_ADMIN_EMAIL';
+-- Use EXACTLY the same approved email as script 03, retaining the quotes.
+-- This is a privileged role assignment and will NOT create an Auth user.
 -- STOP: use this only AFTER first admin has accepted their invite and confirmed email.
 -- Requires trusted project owner/operator running this directly in SQL Editor.
 -- NEVER run a guessed UUID or role assignment from browser/API request.
@@ -8,7 +14,7 @@ declare candidate_count integer;
 begin
  if target_email='REPLACE_WITH_APPROVED_ADMIN_EMAIL'
     or target_email !~* '^[^@[:space:]]+@[^@[:space:]]+[.][^@[:space:]]+$' then
-   raise exception 'STOP: enter a valid approved admin email first';
+   raise exception 'STOP: replace REPLACE_WITH_APPROVED_ADMIN_EMAIL with the approved email address inside single quotes, then run again';
  end if;
  select count(*) into candidate_count
  from auth.users where lower(email)=lower(target_email) and email_confirmed_at is not null;

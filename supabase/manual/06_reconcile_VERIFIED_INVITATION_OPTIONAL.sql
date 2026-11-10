@@ -1,3 +1,8 @@
+-- OPTIONAL RECOVERY ONLY. Do NOT run as part of normal admin setup.
+-- Run ONLY when script 05 shows a verified Auth user, an outstanding,
+-- unexpired invitation, and a pending profile. Normal completed invites
+-- DO NOT require script 06; use script 04 after verification instead.
+-- Edit the email placeholder below to the SAME admin email as script 03.
 -- OPTIONAL recovery for a verified, invited user who remained "pending".
 -- Use ONLY after reading 05_check_INVITATION_AFTER_ACCEPT_READ_ONLY.sql.
 -- This script does NOT grant elevated roles. It activates ONE confirmed email
@@ -10,7 +15,7 @@ declare matched_users int;
 begin
  if target_email='REPLACE_WITH_APPROVED_ADMIN_EMAIL'
     or target_email !~* '^[^@[:space:]]+@[^@[:space:]]+[.][^@[:space:]]+$' then
-   raise exception 'STOP: enter the verified invited email first';
+   raise exception 'STOP: replace REPLACE_WITH_APPROVED_ADMIN_EMAIL with the verified invited email inside single quotes; only run this optional recovery if needed';
  end if;
  select count(*) into matched_users from auth.users
   where lower(email)=lower(target_email) and email_confirmed_at is not null;

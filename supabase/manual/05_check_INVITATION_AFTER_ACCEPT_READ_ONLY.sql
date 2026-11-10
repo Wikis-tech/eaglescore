@@ -1,3 +1,7 @@
+-- IMPORTANT: change ONLY the address inside the lower(...) WHERE clause
+-- to exactly the SAME approved email used in script 03. 
+-- If the placeholder remains, this query runs but returns ZERO rows.
+-- That is NOT proof that an invitation was accepted.
 -- Change only the email string. Run after invitation link is accepted.
 select u.id,u.email,(u.email_confirmed_at is not null) as email_verified,
        p.status as member_status,
