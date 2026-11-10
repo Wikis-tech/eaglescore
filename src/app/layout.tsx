@@ -1,5 +1,5 @@
 import type {Metadata} from "next";
-import "./globals.css";
+import "./globals.css";import "@/components/landing.css";
 import {DemoProvider} from "@/components/demo-provider";
 import {LandingContentProvider} from "@/components/landing-content-provider";
 import {PwaRegister} from "@/components/pwa-register";
