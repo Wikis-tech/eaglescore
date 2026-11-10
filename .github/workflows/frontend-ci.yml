@@ -1,7 +1,7 @@
 name: Frontend CI
 on:
   push:
-    branches: [main, feat/step2-frontend-pwa, feat/tracklib-inspired-landing, feat/step2-cms-polish, feat/step3-supabase-auth-schema, docs/step3-manual-supabase-setup, fix/manual-admin-sql-email-setup, feat/step3-real-auth-release]
+    branches: [main, feat/step2-frontend-pwa, feat/tracklib-inspired-landing, feat/step2-cms-polish, feat/step3-supabase-auth-schema, docs/step3-manual-supabase-setup, fix/manual-admin-sql-email-setup, feat/step3-real-auth-release, feat/public-signup-admin-isolation]
   pull_request:
     branches: [main, feat/step2-frontend-pwa, feat/tracklib-inspired-landing]
 permissions:
@@ -43,4 +43,5 @@ jobs:
       - run: sudo apt-get update -qq && sudo apt-get install -y postgresql-client
       - run: bash supabase/tests/run-ci.sh
       - run: bash supabase/tests/manual-admin-flow-ci.sh
+      - run: bash supabase/tests/public-signup-ci.sh
 
