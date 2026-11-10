@@ -9,3 +9,9 @@ create function auth.uid() returns uuid language sql stable as $$
 $$;
 grant usage on schema auth to authenticated;
 grant execute on function auth.uid() to authenticated;
+
+-- Supabase auth.jwt() fixture for disposable PostgreSQL RLS/MFA testing.
+create function auth.jwt() returns jsonb language sql stable as $$
+select coalesce(nullif(current_setting('request.jwt.claims',true),''),'{}')::jsonb
+$$;
+grant execute on function auth.jwt() to authenticated;

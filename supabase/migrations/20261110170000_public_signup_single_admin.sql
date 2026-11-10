@@ -42,7 +42,8 @@ returns boolean language sql stable security definer set search_path='' as $$
  join auth.users u on u.id=p.id
  where r.user_id=(select auth.uid()) and r.role='super_admin'
  and lower(u.email)='admin@eaglescore.com.ng'
- and u.email_confirmed_at is not null and p.status='active');
+ and u.email_confirmed_at is not null and p.status='active'
+ and (select auth.jwt()->>'aal')='aal2');
 $$;
 -- Remove any elevated account which does not belong to the designated mailbox.
 delete from public.user_roles r
