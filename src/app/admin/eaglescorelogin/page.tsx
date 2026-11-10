@@ -1,5 +1,5 @@
 import Link from "next/link";import {LockKeyhole,ArrowRight,ShieldAlert,Music2} from "lucide-react";
-export const metadata={title:"EagleScore | Admin Sign-in"};
+export const metadata={title:"EagleScore | Admin Sign-in",robots:{index:false,follow:false}};
 export default function AdminLogin(){
  return <main className="es-admin-auth"><div className="es-admin-auth-panel">
   <Link href="/" className="es-admin-mark"><Music2 size={24}/> EAGLESCORE</Link>
