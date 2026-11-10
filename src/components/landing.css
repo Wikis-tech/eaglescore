@@ -94,3 +94,85 @@
 .es-process-card:nth-child(2){transition-delay:.06s}.es-process-card:nth-child(3){transition-delay:.12s}.es-process-card:nth-child(4){transition-delay:.18s}
 .es-feature-card:hover{border-color:#71547c;box-shadow:0 14px 34px #0002}
 @media(prefers-reduced-motion:reduce){.es-scroll-reveal,.es-scroll-reveal.es-reveal-init{opacity:1!important;transform:none!important;transition:none!important}}
+
+/*
+ * Landing typography containment hotfix.
+ * Root cause: the oversized heading's min-content width could exceed its grid
+ * track, especially for "PERFORMANCE." and user-edited CMS text.
+ * Keep the heading in a full-width row and give browser text-size changes room.
+ */
+.es-landing .es-section-intro {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  gap: clamp(14px, 2vw, 28px);
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+.es-landing .es-section-intro > div:first-child,
+.es-landing .es-about > div:first-child {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+.es-landing .es-section-intro h2,
+.es-landing .es-about h2 {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  margin: 0;
+  font-size: clamp(34px, 5.15vw, 76px);
+  line-height: 1.09;
+  letter-spacing: -0.055em;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: normal;
+  text-wrap: pretty;
+}
+.es-landing .es-section-intro h2 span,
+.es-landing .es-about h2 span {
+  overflow-wrap: anywhere;
+}
+.es-landing .es-section-intro > p {
+  width: 100%;
+  max-width: 730px;
+  min-width: 0;
+  margin: 0;
+}
+.es-landing #how-it-works,
+.es-landing #features,
+.es-landing #about {
+  min-width: 0;
+}
+.es-landing .es-about {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
+.es-landing .es-about-right {
+  min-width: 0;
+}
+@media (max-width: 820px) {
+  .es-landing .es-about {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .es-landing .es-section-intro h2,
+  .es-landing .es-about h2 {
+    font-size: clamp(33px, 7.5vw, 62px);
+    letter-spacing: -0.045em;
+  }
+}
+@media (max-width: 520px) {
+  .es-landing .es-section-intro h2,
+  .es-landing .es-about h2 {
+    font-size: clamp(29px, 8vw, 43px);
+    line-height: 1.13;
+    letter-spacing: -0.04em;
+  }
+}
+/* Prevent right-aligned or centred headings from inheriting external styles. */
+.es-landing .es-section-intro > div:first-child h2,
+.es-landing .es-about > div:first-child h2 {
+  text-align: left;
+}
