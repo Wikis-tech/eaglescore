@@ -1,7 +1,7 @@
 name: Frontend CI
 on:
   push:
-    branches: [main, feat/step2-frontend-pwa, feat/tracklib-inspired-landing, feat/step2-cms-polish]
+    branches: [main, feat/step2-frontend-pwa, feat/tracklib-inspired-landing, feat/step2-cms-polish, fix/landing-headline-overflow]
   pull_request:
     branches: [main, feat/step2-frontend-pwa, feat/tracklib-inspired-landing]
 permissions:
