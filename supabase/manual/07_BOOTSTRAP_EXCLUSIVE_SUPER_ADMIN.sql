@@ -6,8 +6,10 @@ do $$
 declare uid uuid;
 declare n integer;
 begin
- select count(*),max(id) into n,uid from auth.users
+ select count(*) into n from auth.users
  where lower(email)='admin@eaglescore.com.ng' and email_confirmed_at is not null;
+ select id into uid from auth.users
+ where lower(email)='admin@eaglescore.com.ng' and email_confirmed_at is not null limit 1;
  if n<>1 then raise exception 'STOP: expected one verified admin Auth user, found %',n; end if;
  if not exists(select 1 from public.profiles where id=uid and status='active') then
    raise exception 'STOP: administrator membership is not active';

@@ -1,5 +1,5 @@
 import "server-only";
-import {redirect} from "next/navigation";
+import {redirect,notFound} from "next/navigation";
 import {createClient} from "@/lib/supabase/server";
 import {configured} from "@/lib/supabase/config";
 export type SessionIdentity={id:string;email:string;role:"member"|"music_director"|"super_admin";aal2:boolean};
@@ -19,8 +19,9 @@ export async function getIdentity():Promise<SessionIdentity|null>{
 }
 export async function requireMember(){const identity=await getIdentity();if(!identity)redirect("/login");return identity}
 export async function requireAdmin(){
- const identity=await requireMember();
- if(identity.role!=="super_admin"||identity.email.toLowerCase()!=="admin@eaglescore.com.ng")redirect("/dashboard");
+ const identity=await getIdentity();
+ if(!identity)redirect("/admin/eaglescorelogin");
+ if(identity.role!=="super_admin"||identity.email.toLowerCase()!=="admin@eaglescore.com.ng")notFound();
  if(!identity.aal2)redirect("/auth/mfa");
  return identity;
 }
