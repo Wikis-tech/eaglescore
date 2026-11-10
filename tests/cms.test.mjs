@@ -5,6 +5,6 @@ const read=p=>readFileSync(p,"utf8");
 test("admin login path and editor exist",()=>{assert.ok(existsSync("src/app/admin/eaglescorelogin/page.tsx"));assert.ok(existsSync("src/app/admin/landing-editor/page.tsx"))});
 test("content model includes all major landing sections",()=>{const t=read("src/lib/landing-content.ts");for(const section of ["hero:","workflow:","features:","about:","ticker:","media:"])assert.ok(t.includes(section),section)});
 test("CMS editor explicitly limits changes to local browser",()=>{const t=read("src/components/landing-editor.tsx");assert.match(t,/localStorage/);assert.match(t,/No server publishing/);assert.match(t,/exportJson/);assert.match(t,/reset/)});
-test("home route uses content provider and original images",()=>{const t=read("src/components/marketing-landing.tsx");assert.match(t,/useLandingContent/);assert.match(t,/Illustration source=/);assert.match(t,/\\/admin\\/eaglescorelogin/)});
+test("home route uses content provider and original images",()=>{const t=read("src/components/marketing-landing.tsx");assert.match(t,/useLandingContent/);assert.match(t,/Illustration source=/);assert.ok(t.includes("/admin/eaglescorelogin"))});
 test("all original images are bundled",()=>{for(const x of ["library","reader","editor","rehearsal"])assert.ok(existsSync("public/illustrations/"+x+".svg"))});
 test("landing typography removes headline nowrap at end of cascade",()=>{const css=read("src/components/landing.css");const last=css.lastIndexOf(".es-hero h1{");assert.match(css.slice(last,last+180),/white-space:normal/)});
