@@ -37,8 +37,9 @@ Docs: https://supabase.com/docs/guides/auth/server-side/nextjs , https://supabas
 3. Go to **Authentication → Users → Invite user** and send an invitation to that exact email.
 4. User opens the invite link and sets a strong password (at least 12 characters). Confirm both \`auth.users.email_confirmed_at\` and \`profiles.status\` become verified/active.
 5. Run \`supabase/manual/05_check_INVITATION_AFTER_ACCEPT_READ_ONLY.sql\` with the same email, and verify results.
-6. Only then run \`supabase/manual/04_grant_FIRST_SUPER_ADMIN.sql\` after replacing the placeholder. This script checks confirmation, accepted invitation, active profile and exact email before assigning the role.
-7. Sign in as admin at \`/admin/eaglescorelogin\`; complete TOTP setup at \`/auth/mfa\`. No unverified account receives elevated access.
+6. If the invite is verified but still pending, **stop and inspect**. An optional reviewed recovery script is at \`supabase/manual/06_reconcile_VERIFIED_INVITATION_OPTIONAL.sql\`; it requires a valid, unexpired pending invitation and a verified user and grants only the member role. Re-run the read-only check after reconciliation.
+7. Only then run \`supabase/manual/04_grant_FIRST_SUPER_ADMIN.sql\` after replacing the placeholder. This script checks confirmation, accepted invitation, active profile and exact email before assigning the role.
+8. Sign in as admin at \`/admin/eaglescorelogin\`; complete TOTP setup at \`/auth/mfa\`. No unverified account receives elevated access.
 
 ## 4. Configure Vercel environment variables
 1. Open https://vercel.com/ → team **Campus Link** → project **eaglescore** → **Settings → Environment Variables** (sometimes labeled Environment Variables under Project Settings).

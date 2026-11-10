@@ -9,8 +9,9 @@ Use the files in this exact sequence. These are **operator scripts**, separate f
 5. In Supabase dashboard, Authentication > Users > Invite user; use the SAME email.
 6. Configure custom invite and recovery email templates and accept invite on the intended EagleScore domain.
 7. \`05_check_INVITATION_AFTER_ACCEPT_READ_ONLY.sql\` — inspect verified profile state.
-8. \`04_grant_FIRST_SUPER_ADMIN.sql\` — only after verified, active invitation; enrol MFA.
-9. Test admin and member login on a Vercel PREVIEW using the correct EagleScore environment.
+8. If an existing verified user remains pending, use \`06_reconcile_VERIFIED_INVITATION_OPTIONAL.sql\` only after checking its safety conditions; run \`05_check...\` again.
+9. \`04_grant_FIRST_SUPER_ADMIN.sql\` — only after verified, active invitation; enrol MFA.
+10. Test admin and member login on a Vercel PREVIEW using the correct EagleScore environment.
 
 **Do not rerun the migration to fix a partial error**. Preserve the error and inspect the existing schema. A SQL Editor execution does not automatically create a Supabase migration-history entry, so document the timestamp and commit SHA of the file you applied and use future forward-only migrations.
 

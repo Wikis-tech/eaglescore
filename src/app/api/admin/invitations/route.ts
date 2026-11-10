@@ -14,7 +14,7 @@ export async function POST(request:NextRequest){
   const {data:inv,error:insertError}=await db.from("invitations").insert({email,invited_by:checked.identity.id}).select("id").single();
   if(insertError||!inv)throw insertError||new Error("Invitation could not be stored");
   const base=process.env.NEXT_PUBLIC_SITE_URL||request.nextUrl.origin;
-  const {error:inviteError}=await db.auth.admin.inviteUserByEmail(email,{redirectTo:new URL("/auth/callback?next=/auth/set-password",base).toString()});
+  const {error:inviteError}=await db.auth.admin.inviteUserByEmail(email,{redirectTo:new URL("/auth/confirm?next=/auth/set-password",base).toString()});
   if(inviteError){await db.from("invitations").delete().eq("id",inv.id);return NextResponse.json({error:"Invitation delivery failed."},{status:503})}
   await db.from("audit_logs").insert({actor_id:checked.identity.id,action:"member.invited",details:{invitation_id:inv.id}});
   return NextResponse.json({ok:true},{status:201});

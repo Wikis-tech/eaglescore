@@ -10,8 +10,10 @@ begin
     or target_email !~* '^[^@[:space:]]+@[^@[:space:]]+[.][^@[:space:]]+$' then
    raise exception 'STOP: enter a valid approved admin email first';
  end if;
- select count(*),min(id) into candidate_count,user_id
+ select count(*) into candidate_count
  from auth.users where lower(email)=lower(target_email) and email_confirmed_at is not null;
+ select id into user_id from auth.users
+ where lower(email)=lower(target_email) and email_confirmed_at is not null limit 1;
  if candidate_count<>1 then raise exception 'STOP: expected one verified user for %, found %',target_email,candidate_count; end if;
  if not exists(select 1 from public.invitations
                where lower(email)=lower(target_email) and accepted_at is not null) then
