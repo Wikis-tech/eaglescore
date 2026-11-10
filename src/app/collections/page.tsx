@@ -1,2 +1,3 @@
+import {requireMember} from "@/lib/auth/access";
 import {Collections} from "@/components/screens";import {Shell} from "@/components/shell";
-export default function Page(){return <Shell><Collections/></Shell>}
+export default async function Page(){await requireMember();return <Shell><Collections/></Shell>}
