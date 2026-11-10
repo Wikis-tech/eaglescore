@@ -1,1 +1,9 @@
-"use client";import Link from "next/link";import {useDemo} from "./demo-provider";export function AdminGate({children}:{children:React.ReactNode}){const{state,ready}=useDemo();if(!ready)return <div className="card">Loading demo role...</div>;if(state.role!=="admin")return <div className="card"><h2>Admin preview restricted</h2><p>This route is for the admin demonstration only. Switch to Admin preview using the role selector to inspect it.</p><Link className="btn" href="/dashboard">Back to dashboard</Link></div>;return <>{children}</>}
+"use client";
+import {useDemo} from "./demo-provider";
+import {configured} from "@/lib/supabase/config";
+export function AdminGate({children}:{children:React.ReactNode}){
+ const{state,ready}=useDemo();
+ if(configured())return <>{children}</>;
+ if(!ready)return <div className="card">Loading demo…</div>;
+ return state.role==="admin"?<>{children}</>:<div className="notice error">Admin preview only; real role checks run on the server when Supabase is configured.</div>;
+}
