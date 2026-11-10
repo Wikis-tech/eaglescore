@@ -1,2 +1,2 @@
-import {Login} from "@/components/screens";
-export default function Page(){return <Login/>}
+import {LoginForm} from "@/components/auth-forms";
+export default function LoginPage(){return <LoginForm/>}

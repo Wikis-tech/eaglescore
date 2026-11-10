@@ -1,0 +1,14 @@
+-- Operator checklist; adapt UUIDs after a disposable-test DB seed.
+-- Do not run against production without a reviewed fixture.
+-- Verify after applying foundation migration:
+-- SELECT tablename,rowsecurity FROM pg_tables WHERE schemaname='public';
+-- Expected: all EagleScore user tables have rowsecurity=true.
+-- With role=anon: SELECT id,published FROM public.landing_content succeeds.
+-- With role=anon: SELECT draft FROM public.landing_content FAILS (column privileges).
+-- With role=authenticated and request.jwt.claim.sub=userA:
+--  * userA can select their own profile, not userB's.
+--  * userA cannot INSERT user_roles nor UPDATE scores.status.
+--  * userA cannot SELECT score_files or INSERT audit_logs.
+--  * userA can read published scores; cannot read userB pending scores.
+--  * super_admin without aal2 is stopped by Next.js server admin checks.
+-- These are manual regression scenarios until database project access and full test fixtures are available.
