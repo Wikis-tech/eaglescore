@@ -1,3 +1,5 @@
 import {requireMember} from "@/lib/auth/access";
-import {Reader} from "@/components/screens";import {Shell} from "@/components/shell";
-export default async function Page(){await requireMember();return <Shell><Reader/></Shell>}
+import {Shell} from "@/components/shell";
+import {RealScoreDetails} from "@/components/real-workspace";
+export const dynamic="force-dynamic";
+export default async function Page({params}:{params:Promise<{scoreId:string}>}){const identity=await requireMember();const {scoreId}=await params;return <Shell adminRole={identity.role==="super_admin"}><RealScoreDetails scoreId={scoreId} identity={identity}/></Shell>}

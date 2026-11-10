@@ -12,7 +12,7 @@ export type LandingContent = {
 };
 export const originalLanding:LandingContent = {
   brand:"EagleScore",
-  nav:{how:"How it works",features:"Features",about:"Our orchestra",demo:"Explore demo",login:"Member login",open:"Open library"},
+  nav:{how:"How it works",features:"Features",about:"Our orchestra",demo:"Music library",login:"Member login",open:"Open library"},
   hero:{eyebrow:"MFM LAGOS REGION ONE · EAGLE ORCHESTRA",line1:"EVERY SCORE.",line2:"ONE HOME.",line3:"ALWAYS READY.",description:"No more missing hymn sheets. Discover, organise and read your orchestra's approved scores — anywhere, on any device.",cta:"Enter the library",secondary:"See how it works",caption:"A DIGITAL HOME FOR EVERY PART OF THE PERFORMANCE",badge:"THE MUSIC STAYS WITH YOU"},
   ticker:["PDF SCORES","INSTRUMENT PARTS","HYMNS","MUSICXML PLANNED","DIGITAL ARCHIVE","REHEARSAL COLLECTIONS"],
   workflow:{eyebrow:"01 / THE WORKFLOW",heading1:"FROM PAPER",heading2:"TO PERFORMANCE.",description:"Your orchestra's music, organised in a few simple steps. Every submission is reviewed before it becomes part of the official collection.",steps:[{title:"UPLOAD",description:"Add a scan, PDF or a drafted music score."},{title:"REVIEW",description:"The authorised admin checks every submission."},{title:"FIND",description:"Search approved music by title or instrument."},{title:"PLAY",description:"Open your part on any screen, ready for rehearsal."}]},
