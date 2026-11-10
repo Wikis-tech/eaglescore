@@ -3,7 +3,7 @@
 set -euo pipefail
 : "${DATABASE_URL:?Provide the disposable CI database URL}"
 sql_dir="supabase/manual"
-substitute () { sed "s/REPLACE_WITH_APPROVED_ADMIN_EMAIL/$2/g" "$sql_dir/$1"; }
+substitute () { sed "/declare target_email text :=/s/REPLACE_WITH_APPROVED_ADMIN_EMAIL/$2/" "$sql_dir/$1"; }
 count_sql () { psql "$DATABASE_URL" -At -c "$1"; }
 # Missing admin email must intentionally fail without creating an invitation.
 if psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f "$sql_dir/03_prepare_FIRST_ADMIN_INVITATION.sql" >/dev/null 2>&1; then
