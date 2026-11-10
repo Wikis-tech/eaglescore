@@ -14,7 +14,7 @@ export async function PATCH(request:NextRequest){
  const role=body?.role;
  if(!/^[0-9a-f]{8}-[0-9a-f-]{27,}$/i.test(id)||!["suspend","reactivate","grant","revoke"].includes(action))return NextResponse.json({error:"Invalid member request."},{status:400});
  if(id===check.identity.id)return NextResponse.json({error:"Administrators cannot change their own account from this screen."},{status:403});
- if(["grant","revoke"].includes(action)&&!["member","music_director","super_admin"].includes(role))return NextResponse.json({error:"Invalid role."},{status:400});
+ if(["grant","revoke"].includes(action)&&!["member","music_director"].includes(role))return NextResponse.json({error:"Invalid role."},{status:400});
  try{
   const db=createAdminClient();
   const {data:target,error:lookup}=await db.from("profiles").select("id,status").eq("id",id).maybeSingle();

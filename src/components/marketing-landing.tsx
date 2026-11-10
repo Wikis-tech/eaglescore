@@ -32,7 +32,7 @@ export default function MarketingLanding(){
     <a href="#how-it-works" onClick={()=>setOpen(false)}>{c.nav.how}</a>
     <a href="#features" onClick={()=>setOpen(false)}>{c.nav.features}</a>
     <a href="#about" onClick={()=>setOpen(false)}>{c.nav.about}</a>
-    <Link href="/library" onClick={()=>setOpen(false)}>{c.nav.demo}</Link>
+    <Link href="/signup" onClick={()=>setOpen(false)}>Create account</Link>
    </div>
    <div className="es-nav-actions"><Link href="/login" className="es-login">{c.nav.login}</Link><Link href="/dashboard" className="es-button es-button-light">{c.nav.open}<ArrowRight size={16}/></Link></div>
    <button type="button" className="es-mobile-toggle" aria-label={open?"Close menu":"Open menu"} aria-expanded={open} aria-controls="landing-navigation" onClick={()=>setOpen(v=>!v)}>{open?<X size={23}/>:<Menu size={23}/>}</button>
