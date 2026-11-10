@@ -1,7 +1,7 @@
 name: Frontend CI
 on:
   push:
-    branches: [main, feat/step2-frontend-pwa, feat/tracklib-inspired-landing, feat/step2-cms-polish, feat/step3-supabase-auth-schema]
+    branches: [main, feat/step2-frontend-pwa, feat/tracklib-inspired-landing, feat/step2-cms-polish, feat/step3-supabase-auth-schema, docs/step3-manual-supabase-setup]
   pull_request:
     branches: [main, feat/step2-frontend-pwa, feat/tracklib-inspired-landing]
 permissions:
