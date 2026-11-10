@@ -1,5 +1,7 @@
 # Manual Supabase SQL Editor scripts
 
+**Before running 03, 04, 05 or 06:** replace the literal placeholder `REPLACE_WITH_APPROVED_ADMIN_EMAIL` with the **same actual approved admin email** in every script. Keep the single quotes. For 05, change the email in its `WHERE` clause. A P0001 error stating that an approved email is required means the safeguard worked and the placeholder was not changed. Script 06 is optional and normally should NOT be run.
+
 Use the files in this exact sequence. These are **operator scripts**, separate from immutable schema migrations. They must never be run against other projects.
 
 1. `01_preflight_READ_ONLY.sql` — inspect target DB before any writes.
