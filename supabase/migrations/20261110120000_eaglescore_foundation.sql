@@ -134,3 +134,8 @@ grant update(name) on public.collections to authenticated;
 grant update(title,content,change_summary) on public.score_versions to authenticated;
 grant delete on public.collections,public.collection_items,public.favorites to authenticated;
 -- score_files and privileged role/submission/review/publication rows intentionally unavailable for direct client mutation.
+
+-- Explicit service-role privileges are needed even when RLS is bypassed.
+grant usage on schema public to anon,authenticated,service_role;
+grant all on all tables in schema public to service_role;
+grant all on all sequences in schema public to service_role;
